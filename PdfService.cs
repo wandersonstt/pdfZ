@@ -10,20 +10,17 @@ namespace pdfZ
 {
     public class PdfService
     {
-        // 1. Comprimir (COM MODO EXTREMO 50 DPI)
+        // 1. Comprimir
         public async Task ComprimirArquivoAsync(string entrada, string saida, string caminhoGS, string nivelQualidade)
         {
             await Task.Run(() =>
             {
                 if (!File.Exists(caminhoGS))
-                    throw new FileNotFoundException("O arquivo 'gswin64c.exe' não foi encontrado na pasta motor_gs.");
+                    throw new FileNotFoundException("O executável 'gswin64c.exe' não foi encontrado. Verifique a pasta 'motor_gs'.");
 
                 string configSettings;
-
-                // Se for o modo EXTREMO, usamos configurações manuais agressivas
                 if (nivelQualidade == "EXTREME")
                 {
-                    // Força 50 DPI (abaixo de /screen que é 72)
                     configSettings = "-dPDFSETTINGS=/screen " +
                                      "-dColorImageDownsampleType=/Bicubic -dColorImageResolution=50 " +
                                      "-dGrayImageDownsampleType=/Bicubic -dGrayImageResolution=50 " +
@@ -31,7 +28,6 @@ namespace pdfZ
                 }
                 else
                 {
-                    // Usa os perfis padrão (/ebook, /printer, etc)
                     configSettings = $"-dPDFSETTINGS={nivelQualidade}";
                 }
 
@@ -61,7 +57,9 @@ namespace pdfZ
                         {
                             int count = inputDocument.PageCount;
                             for (int idx = 0; idx < count; idx++)
+                            {
                                 outputDocument.AddPage(inputDocument.Pages[idx]);
+                            }
                         }
                     }
                     outputDocument.Save(saida);
@@ -117,12 +115,14 @@ namespace pdfZ
                     foreach (var imgFile in imagens)
                     {
                         var page = doc.AddPage();
-                        using (var xImage = XImage.FromFile(imgFile))
+                        using (var fs = new FileStream(imgFile, FileMode.Open, FileAccess.Read))
+                        using (var xImage = XImage.FromStream(fs))
                         using (var gfx = XGraphics.FromPdfPage(page))
                         {
                             double ratio = Math.Min(page.Width.Point / xImage.PixelWidth, page.Height.Point / xImage.PixelHeight);
                             double w = xImage.PixelWidth * ratio;
                             double h = xImage.PixelHeight * ratio;
+
                             gfx.DrawImage(xImage, (page.Width.Point - w) / 2, (page.Height.Point - h) / 2, w, h);
                         }
                     }
@@ -131,49 +131,79 @@ namespace pdfZ
             });
         }
 
-        // 6. Proteger com Senha
+        // 6. Proteger com Senha (CORRIGIDO PARA VERSÃO 6.x)
         public async Task ProtegerPdfAsync(string entrada, string saida, string senha)
         {
             await Task.Run(() =>
             {
-                using (var doc = PdfReader.Open(entrada, PdfDocumentOpenMode.Modify))
+                string senhaLimpa = senha.Trim();
+                if (string.IsNullOrEmpty(senhaLimpa)) throw new Exception("A senha não pode ser vazia.");
+
+                using (var docEntrada = PdfReader.Open(entrada, PdfDocumentOpenMode.Import))
+                using (var docSaida = new PdfDocument())
                 {
-                    var securitySettings = doc.SecuritySettings;
-                    securitySettings.UserPassword = senha;
-                    securitySettings.OwnerPassword = senha;
+                    docSaida.Version = docEntrada.Version;
+
+                    foreach (var page in docEntrada.Pages)
+                    {
+                        docSaida.AddPage(page);
+                    }
+
+                    var securitySettings = docSaida.SecuritySettings;
+
+                    // CORREÇÃO: Removemos DocumentSecurityLevel (não existe na v6).
+                    // A segurança será aplicada automaticamente ao definir as senhas.
+
+                    // Definimos senhas diferentes para evitar que o leitor bloqueie o arquivo.
+                    // Senha para abrir: O que o usuário digitou.
+                    // Senha para editar (Owner): A senha do usuário + "_admin".
+                    securitySettings.UserPassword = senhaLimpa;
+                    securitySettings.OwnerPassword = senhaLimpa + "_admin";
 
                     securitySettings.PermitExtractContent = false;
                     securitySettings.PermitModifyDocument = false;
+                    securitySettings.PermitPrint = true;
 
-                    doc.Save(saida);
+                    docSaida.Save(saida);
                 }
             });
         }
 
-        // 7. Marca D'água
+        // 7. Marca D'água (Mantido funcional)
         public async Task AdicionarMarcaDaguaAsync(string entrada, string saida, string texto)
         {
             await Task.Run(() =>
             {
-                using (var doc = PdfReader.Open(entrada, PdfDocumentOpenMode.Modify))
+                using (var docEntrada = PdfReader.Open(entrada, PdfDocumentOpenMode.Import))
+                using (var docSaida = new PdfDocument())
                 {
-                    foreach (var page in doc.Pages)
+                    docSaida.Version = docEntrada.Version;
+
+                    foreach (var pageEntrada in docEntrada.Pages)
                     {
-                        using (var gfx = XGraphics.FromPdfPage(page))
+                        var pageSaida = docSaida.AddPage(pageEntrada);
+
+                        using (var gfx = XGraphics.FromPdfPage(pageSaida))
                         {
+                            // Usa construtor padrão da fonte
                             var font = new XFont("Arial", 40);
+
                             var color = XColor.FromArgb(128, 255, 0, 0);
                             var brush = new XSolidBrush(color);
 
-                            var center = new XPoint(page.Width.Point / 2, page.Height.Point / 2);
+                            var center = new XPoint(pageSaida.Width.Point / 2, pageSaida.Height.Point / 2);
+                            var state = gfx.Save();
+
                             gfx.TranslateTransform(center.X, center.Y);
                             gfx.RotateTransform(-45);
 
                             var size = gfx.MeasureString(texto, font);
                             gfx.DrawString(texto, font, brush, -(size.Width / 2), -(size.Height / 2));
+
+                            gfx.Restore(state);
                         }
                     }
-                    doc.Save(saida);
+                    docSaida.Save(saida);
                 }
             });
         }
