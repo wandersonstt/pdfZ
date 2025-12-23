@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tabControlPrincipal = new System.Windows.Forms.TabControl();
             this.tabCompressao = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
@@ -85,7 +86,7 @@
             this.tabControlPrincipal.Location = new System.Drawing.Point(0, 0);
             this.tabControlPrincipal.Name = "tabControlPrincipal";
             this.tabControlPrincipal.SelectedIndex = 0;
-            this.tabControlPrincipal.Size = new System.Drawing.Size(484, 239);
+            this.tabControlPrincipal.Size = new System.Drawing.Size(776, 401);
             this.tabControlPrincipal.TabIndex = 0;
             // 
             // tabCompressao
@@ -95,7 +96,7 @@
             this.tabCompressao.Location = new System.Drawing.Point(4, 24);
             this.tabCompressao.Name = "tabCompressao";
             this.tabCompressao.Padding = new System.Windows.Forms.Padding(10);
-            this.tabCompressao.Size = new System.Drawing.Size(476, 211);
+            this.tabCompressao.Size = new System.Drawing.Size(768, 373);
             this.tabCompressao.TabIndex = 0;
             this.tabCompressao.Text = "Compressão";
             this.tabCompressao.UseVisualStyleBackColor = true;
@@ -136,7 +137,7 @@
             this.lblArquivo.AutoSize = true;
             this.lblArquivo.Location = new System.Drawing.Point(16, 76);
             this.lblArquivo.Name = "lblArquivo";
-            this.lblArquivo.Size = new System.Drawing.Size(149, 15);
+            this.lblArquivo.Size = new System.Drawing.Size(163, 15);
             this.lblArquivo.TabIndex = 2;
             this.lblArquivo.Text = "Nenhum arquivo selecionado";
             // 
@@ -156,7 +157,7 @@
             this.tabJuntar.Location = new System.Drawing.Point(4, 24);
             this.tabJuntar.Name = "tabJuntar";
             this.tabJuntar.Padding = new System.Windows.Forms.Padding(10);
-            this.tabJuntar.Size = new System.Drawing.Size(476, 211);
+            this.tabJuntar.Size = new System.Drawing.Size(768, 373);
             this.tabJuntar.TabIndex = 1;
             this.tabJuntar.Text = "Juntar";
             this.tabJuntar.UseVisualStyleBackColor = true;
@@ -177,7 +178,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(16, 75);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(288, 15);
+            this.label1.Size = new System.Drawing.Size(280, 15);
             this.label1.TabIndex = 5;
             this.label1.Text = "Selecione 2 ou mais PDFs para uni-los em um único";
             // 
@@ -197,7 +198,7 @@
             this.tabDividir.Location = new System.Drawing.Point(4, 24);
             this.tabDividir.Name = "tabDividir";
             this.tabDividir.Padding = new System.Windows.Forms.Padding(10);
-            this.tabDividir.Size = new System.Drawing.Size(476, 211);
+            this.tabDividir.Size = new System.Drawing.Size(768, 373);
             this.tabDividir.TabIndex = 2;
             this.tabDividir.Text = "Dividir";
             this.tabDividir.UseVisualStyleBackColor = true;
@@ -218,7 +219,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(16, 75);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(325, 15);
+            this.label2.Size = new System.Drawing.Size(332, 15);
             this.label2.TabIndex = 7;
             this.label2.Text = "Pega um PDF e salva cada página como um arquivo separado";
             // 
@@ -238,7 +239,7 @@
             this.tabRotacionar.Location = new System.Drawing.Point(4, 24);
             this.tabRotacionar.Name = "tabRotacionar";
             this.tabRotacionar.Padding = new System.Windows.Forms.Padding(10);
-            this.tabRotacionar.Size = new System.Drawing.Size(476, 211);
+            this.tabRotacionar.Size = new System.Drawing.Size(768, 373);
             this.tabRotacionar.TabIndex = 3;
             this.tabRotacionar.Text = "Rotacionar";
             this.tabRotacionar.UseVisualStyleBackColor = true;
@@ -260,7 +261,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(16, 88);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(280, 15);
+            this.label3.Size = new System.Drawing.Size(285, 15);
             this.label3.TabIndex = 9;
             this.label3.Text = "Gira as páginas do PDF no ângulo selecionado acima";
             // 
@@ -289,7 +290,7 @@
             this.tabImagem.Location = new System.Drawing.Point(4, 24);
             this.tabImagem.Name = "tabImagem";
             this.tabImagem.Padding = new System.Windows.Forms.Padding(10);
-            this.tabImagem.Size = new System.Drawing.Size(476, 211);
+            this.tabImagem.Size = new System.Drawing.Size(768, 373);
             this.tabImagem.TabIndex = 4;
             this.tabImagem.Text = "Imagem p/ PDF";
             this.tabImagem.UseVisualStyleBackColor = true;
@@ -310,7 +311,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(16, 75);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(294, 15);
+            this.label4.Size = new System.Drawing.Size(300, 15);
             this.label4.TabIndex = 11;
             this.label4.Text = "Converte uma ou mais imagens (JPG, PNG) em um PDF";
             // 
@@ -330,7 +331,7 @@
             this.tabAjuda.Location = new System.Drawing.Point(4, 24);
             this.tabAjuda.Name = "tabAjuda";
             this.tabAjuda.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAjuda.Size = new System.Drawing.Size(476, 211);
+            this.tabAjuda.Size = new System.Drawing.Size(768, 373);
             this.tabAjuda.TabIndex = 5;
             this.tabAjuda.Text = "Ajuda";
             this.tabAjuda.UseVisualStyleBackColor = true;
@@ -343,8 +344,9 @@
             this.txtAjuda.Name = "txtAjuda";
             this.txtAjuda.ReadOnly = true;
             this.txtAjuda.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtAjuda.Size = new System.Drawing.Size(470, 205);
+            this.txtAjuda.Size = new System.Drawing.Size(762, 367);
             this.txtAjuda.TabIndex = 0;
+            this.txtAjuda.TextChanged += new System.EventHandler(this.txtAjuda_TextChanged);
             // 
             // statusRodape
             // 
@@ -352,16 +354,16 @@
             this.statusRodape.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblStatusPrincipal,
             this.lblNomeAutor});
-            this.statusRodape.Location = new System.Drawing.Point(0, 239);
+            this.statusRodape.Location = new System.Drawing.Point(0, 401);
             this.statusRodape.Name = "statusRodape";
-            this.statusRodape.Size = new System.Drawing.Size(484, 22);
+            this.statusRodape.Size = new System.Drawing.Size(776, 22);
             this.statusRodape.TabIndex = 1;
             this.statusRodape.Text = "statusStrip1";
             // 
             // lblStatusPrincipal
             // 
             this.lblStatusPrincipal.Name = "lblStatusPrincipal";
-            this.lblStatusPrincipal.Size = new System.Drawing.Size(323, 17);
+            this.lblStatusPrincipal.Size = new System.Drawing.Size(619, 17);
             this.lblStatusPrincipal.Spring = true;
             this.lblStatusPrincipal.Text = "Pronto.";
             this.lblStatusPrincipal.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -369,18 +371,18 @@
             // lblNomeAutor
             // 
             this.lblNomeAutor.Name = "lblNomeAutor";
-            this.lblNomeAutor.Size = new System.Drawing.Size(146, 17);
+            this.lblNomeAutor.Size = new System.Drawing.Size(142, 17);
             this.lblNomeAutor.Text = "Wanderson Saraiva Torres";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 261);
+            this.ClientSize = new System.Drawing.Size(776, 423);
             this.Controls.Add(this.tabControlPrincipal);
             this.Controls.Add(this.statusRodape);
-            // AQUI ESTÁ A MUDANÇA DA FONTE
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "pdfZ - Ferramentas PDF";
             this.tabControlPrincipal.ResumeLayout(false);
