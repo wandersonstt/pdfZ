@@ -142,7 +142,10 @@ namespace pdfZ
                 using (var docEntrada = PdfReader.Open(entrada, PdfDocumentOpenMode.Import))
                 using (var docSaida = new PdfDocument())
                 {
-                    docSaida.Version = docEntrada.Version;
+                    // --- CORREÇÃO APLICADA AQUI ---
+                    // Forçamos a versão 1.7 (valor inteiro 17) para garantir compatibilidade
+                    // com a criptografia AES padrão do PDFSharp 6.x.
+                    docSaida.Version = 17;
 
                     foreach (var page in docEntrada.Pages)
                     {
@@ -150,9 +153,6 @@ namespace pdfZ
                     }
 
                     var securitySettings = docSaida.SecuritySettings;
-
-                    // CORREÇÃO: Removemos DocumentSecurityLevel (não existe na v6).
-                    // A segurança será aplicada automaticamente ao definir as senhas.
 
                     // Definimos senhas diferentes para evitar que o leitor bloqueie o arquivo.
                     // Senha para abrir: O que o usuário digitou.
